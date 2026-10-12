@@ -67,8 +67,8 @@ if(cv&&!RM){const ctx=cv.getContext('2d');let W,Hh,dpr=Math.min(devicePixelRatio
 /* carousel: drag + auto-scroll + buttons */
 const car=$('#car');
 if(car){let down=false,sx=0,sl=0,moved=0,paused=false,auto=!RM,pos=car.scrollLeft;
- car.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse')return;down=true;moved=0;sx=e.clientX;sl=car.scrollLeft;car.setPointerCapture(e.pointerId)});
- car.addEventListener('pointermove',e=>{if(!down)return;const d=e.clientX-sx;moved=Math.max(moved,Math.abs(d));if(moved>5)car.classList.add('drag');car.scrollLeft=sl-d;pos=car.scrollLeft});
+ car.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse')return;down=true;moved=0;sx=e.clientX;sl=car.scrollLeft;car._pid=e.pointerId});
+ car.addEventListener('pointermove',e=>{if(!down)return;const d=e.clientX-sx;moved=Math.max(moved,Math.abs(d));if(moved>5&&!car.classList.contains('drag')){car.classList.add('drag');try{car.setPointerCapture(car._pid)}catch(_){}}car.scrollLeft=sl-d;pos=car.scrollLeft});
  const up=()=>{down=false;setTimeout(()=>car.classList.remove('drag'),0)};car.addEventListener('pointerup',up);car.addEventListener('pointercancel',up);
  car.addEventListener('click',e=>{if(moved>5){e.preventDefault();e.stopPropagation();moved=0}},true);
  ['pointerenter','focusin','touchstart'].forEach(ev=>car.addEventListener(ev,()=>paused=true,{passive:true}));['pointerleave','focusout'].forEach(ev=>car.addEventListener(ev,()=>{paused=false;pos=car.scrollLeft}));
