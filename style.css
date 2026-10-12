@@ -172,5 +172,5 @@ nav a.active:not(.btn){color:var(--ink)}nav a.active:not(.btn):after{transform:s
 .ripple{position:absolute;border-radius:50%;transform:scale(0);background:rgba(255,255,255,.45);pointer-events:none;animation:rip .65s var(--ease) forwards;z-index:-1}.glass .ripple,.discord .ripple{background:rgba(255,255,255,.25)}@keyframes rip{to{transform:scale(1);opacity:0}}
 .btn{overflow:hidden}
 /* grain on all sizes, lighter on mobile */
-@media(max-width:600px){.grain{display:block;opacity:.035}}
+
 @media(prefers-reduced-motion:reduce){.totop,.mbar{transition:none}}

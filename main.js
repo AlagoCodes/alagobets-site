@@ -51,7 +51,7 @@ if(logo&&FINE&&!RM){let tx=0,ty=0,cx=0,cy=0,run=false;addEventListener('pointerm
 
 /* gold dust */
 const cv=$('#dust');
-if(cv&&!RM){const ctx=cv.getContext('2d');let W,Hh,dpr=Math.min(devicePixelRatio||1,MOBILE?1.5:2),ps=[],vis=true,mx=-1e3,my=-1e3;const N=MOBILE?38:95;
+const startDust=()=>{if(cv&&!RM){const ctx=cv.getContext('2d');let W,Hh,dpr=Math.min(devicePixelRatio||1,MOBILE?1.5:2),ps=[],vis=true,mx=-1e3,my=-1e3;const N=MOBILE?38:95;
  const size=()=>{const r=cv.getBoundingClientRect();W=r.width;Hh=r.height;cv.width=W*dpr;cv.height=Hh*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)};
  const mk=init=>({x:Math.random()*W,y:init?Math.random()*Hh:Hh+10,r:Math.random()*1.8+.4,vy:-(Math.random()*.35+.08),vx:(Math.random()-.5)*.15,a:Math.random()*.6+.2,tw:Math.random()*6.28,g:Math.random()<.18});
  size();ps=Array.from({length:N},()=>mk(true));addEventListener('resize',size);
@@ -62,7 +62,8 @@ if(cv&&!RM){const ctx=cv.getContext('2d');let W,Hh,dpr=Math.min(devicePixelRatio
    if(p.y<-10||p.x<-10||p.x>W+10)Object.assign(p,mk(false));const al=p.a*(.6+.4*Math.sin(p.tw));
    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,6.283);ctx.fillStyle=p.g?`rgba(61,220,132,${al*.7})`:`rgba(240,200,90,${al})`;ctx.shadowBlur=p.r*6;ctx.shadowColor=p.g?'#3ddc84':'#f0c85a';ctx.fill()}
   ctx.shadowBlur=0;requestAnimationFrame(draw)}
- requestAnimationFrame(draw)}
+ requestAnimationFrame(draw)}};
+if(document.readyState==='complete')setTimeout(startDust,300);else addEventListener('load',()=>setTimeout(startDust,300),{once:true});
 
 /* carousel: drag + auto-scroll + arrows (single scroll owner, no fighting) */
 const car=$('#car');
@@ -106,12 +107,13 @@ const tt=$('#totop'),ring=$('#ring'),mbar=$('#mbar'),hero=$('.hero'),join=$('#jo
 const upd=()=>{const y=scrollY,max=document.documentElement.scrollHeight-innerHeight,p=max>0?y/max:0;ring.style.strokeDashoffset=C*(1-p);tt.classList.toggle('show',y>innerHeight*.8);
  const pastHero=hero.getBoundingClientRect().bottom<0,jr=join.getBoundingClientRect(),nearJoin=jr.top<innerHeight;const show=pastHero&&!nearJoin;mbar.classList.toggle('show',show);tt.classList.toggle('lift',show)};
 addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);upd();
-/* discord invite counts (public API, graceful fallback) */
-const ctrl=new AbortController();setTimeout(()=>ctrl.abort(),6000);
-fetch('https://discord.com/api/v9/invites/qv9yThhm7e?with_counts=true',{signal:ctrl.signal}).then(r=>r.ok?r.json():Promise.reject()).then(d=>{
+/* discord invite counts (public API, lazy, no cookies, graceful fallback) */
+const inv=document.getElementById('community');
+const loadInv=()=>{const ctrl=new AbortController();setTimeout(()=>ctrl.abort(),6000);
+fetch('https://discord.com/api/v9/invites/qv9yThhm7e?with_counts=true',{signal:ctrl.signal,credentials:'omit',referrerPolicy:'no-referrer'}).then(r=>r.ok?r.json():Promise.reject()).then(d=>{
  const g=d.guild||{},on=d.approximate_presence_count,mem=d.approximate_member_count,f=n=>Number(n).toLocaleString('en-US');
  if(g.name)$('#invName').textContent=g.name;
  if(Number.isFinite(on)&&Number.isFinite(mem)){const c=$('#invCounts');c.textContent='';[['on',f(on)+' Online'],['mem',f(mem)+' Members']].forEach(([k,t])=>{const s=document.createElement('span'),i=document.createElement('i'),b=document.createElement('b');i.className=k;b.textContent=t;s.append(i,b);c.append(s)})}
- if(g.id&&g.icon&&/^[a-f0-9_]+$/i.test(g.icon)&&/^\d+$/.test(g.id)){const im=new Image();im.onload=()=>{const ic=$('#invIcon');ic.src=im.src;ic.style.padding='0'};im.src=`https://cdn.discordapp.com/icons/${g.id}/${g.icon}.png?size=128`}
-}).catch(()=>{});
+}).catch(()=>{})};
+if(inv){const vio=new IntersectionObserver(([e])=>{if(e.isIntersecting){vio.disconnect();loadInv()}},{rootMargin:'600px 0px'});vio.observe(inv)}
 })();
