@@ -5,51 +5,73 @@
 <meta property="og:type" content="website"><meta property="og:site_name" content="AlagoBets"><meta property="og:url" content="https://alagocodes.github.io/alagobets-site/"><meta property="og:title" content="AlagoBets — Free Sports Picks Community"><meta property="og:description" content="Data-driven models, real conversation, every sport. Join free."><meta property="og:image" content="https://alagocodes.github.io/alagobets-site/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="AlagoBets logo">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@itsAlago"><meta name="twitter:title" content="AlagoBets — Free Sports Picks Community"><meta name="twitter:description" content="Data-driven models, real conversation, every sport. Join free."><meta name="twitter:image" content="https://alagocodes.github.io/alagobets-site/og.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css"></head><body>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="logo-full.webp" type="image/webp">
+<link rel="stylesheet" href="style.css">
+<script>document.documentElement.classList.add('js');try{if(sessionStorage.getItem('ab-intro'))document.documentElement.classList.add('no-intro')}catch(e){}</script>
+</head><body>
 <a class="skip" href="#main">Skip to content</a>
-<div class="bg" aria-hidden="true"><i class="orb o1"></i><i class="orb o2"></i><i class="orb o3"></i><i class="grid-lines"></i></div>
+<div class="intro" id="intro" aria-hidden="true"><div class="intro-in"><img src="logo-icon.png" alt="" width="122" height="128"><span class="intro-shine"></span></div><div class="intro-bar"><i></i></div><button class="intro-skip" type="button">Skip</button></div>
+<div class="cursor" aria-hidden="true"><i class="c-dot"></i><i class="c-ring"></i></div>
+<div class="bg" aria-hidden="true"><i class="orb o1"></i><i class="orb o2"></i><i class="orb o3"></i><i class="grid-lines"></i><i class="grain"></i></div>
+<div class="progress" aria-hidden="true"><i id="prog"></i></div>
+
 <header class="nav" id="nav"><div class="wrap navin">
 <a href="#top" class="brand" aria-label="AlagoBets home"><img src="logo-icon.png" height="32" style="height:32px;width:auto" alt=""><span>ALAGO<b>BETS</b></span></a>
 <button class="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
-<nav id="menu" aria-label="Main"><a href="#about">About</a><a href="#wins">Recent Wins</a><a href="#how">How it works</a><a class="btn gold sm" href="https://www.winible.com/checkout/free-plan?creatorId=1459934347283943425" target="_blank" rel="noopener">Join Free</a></nav></div></header>
-<main id="main"><span id="top"></span>
-<section class="hero wrap"><picture class="hero-logo reveal"><source srcset="logo-full.webp" type="image/webp"><img src="logo-full.png" alt="AlagoBets logo: gold crown over a gold ticket" width="900" fetchpriority="high"></picture><div class="pill reveal"><i class="dot"></i>Free community · Open to everyone 21+</div>
-<h1 class="reveal">Bet smarter.<br><span class="shine">Bet together.</span></h1>
-<p class="lead reveal">AlagoBets pairs data-driven models with a sharp, welcoming community. NFL, NBA, MLB, NHL and player props, all in one place.</p>
-<div class="ctas reveal"><a class="btn gold" href="https://www.winible.com/checkout/free-plan?creatorId=1459934347283943425" target="_blank" rel="noopener">Join Free <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn glass" href="https://discord.gg/qv9yThhm7e" target="_blank" rel="noopener">Open Discord</a></div>
-<ul class="sports reveal" aria-label="Sports covered"><li>NFL</li><li>NBA</li><li>MLB</li><li>NHL</li><li>Props</li></ul></section>
+<nav id="menu" aria-label="Main"><a href="#about">About</a><a href="#wins">Recent Wins</a><a href="#how">How it works</a><a class="btn gold sm magnetic" href="https://www.winible.com/checkout/free-plan?creatorId=1459934347283943425" target="_blank" rel="noopener"><span>Join Free</span></a></nav></div></header>
 
-<section id="about" class="wrap sec"><p class="kicker reveal">What you get</p><h2 class="reveal">Built for people who <span class="shine">love the action</span></h2>
+<main id="main"><span id="top"></span>
+<section class="hero">
+<canvas id="dust" aria-hidden="true"></canvas>
+<div class="wrap hero-in">
+<div class="tilt-wrap"><picture class="hero-logo" id="heroLogo"><source srcset="logo-full.webp" type="image/webp"><img src="logo-full.png" alt="AlagoBets logo: gold crown over a gold ticket" width="680" height="538" fetchpriority="high"></picture></div>
+<div class="pill h-in" style="--d:.1s"><i class="dot"></i>Free community · Open to everyone 21+</div>
+<h1 class="split" aria-label="Bet smarter. Bet together."><span class="w">Bet</span> <span class="w">smarter.</span><br><span class="w shine">Bet</span> <span class="w shine">together.</span></h1>
+<p class="lead h-in" style="--d:.7s">AlagoBets pairs data-driven models with a sharp, welcoming community. NFL, NBA, MLB, NHL and player props, all in one place.</p>
+<div class="ctas h-in" style="--d:.85s"><a class="btn gold magnetic pulse" href="https://www.winible.com/checkout/free-plan?creatorId=1459934347283943425" target="_blank" rel="noopener"><span>Join Free <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a><a class="btn glass magnetic" href="https://discord.gg/qv9yThhm7e" target="_blank" rel="noopener"><span>Open Discord</span></a></div>
+</div>
+<a href="#about" class="scroll-ind" aria-label="Scroll to content"><span></span></a>
+</section>
+
+<div class="marquee" aria-label="Sports and markets covered: NFL, NBA, MLB, NHL, Props, NCAAF, Tennis, Kalshi"><div class="track" aria-hidden="true">
+<div class="set"><span>NFL</span><i>✦</i><span>NBA</span><i>✦</i><span>MLB</span><i>✦</i><span>NHL</span><i>✦</i><span>Props</span><i>✦</i><span>NCAAF</span><i>✦</i><span>Tennis</span><i>✦</i><span>Kalshi</span><i>✦</i></div><div class="set"><span>NFL</span><i>✦</i><span>NBA</span><i>✦</i><span>MLB</span><i>✦</i><span>NHL</span><i>✦</i><span>Props</span><i>✦</i><span>NCAAF</span><i>✦</i><span>Tennis</span><i>✦</i><span>Kalshi</span><i>✦</i></div></div></div>
+
+<section id="about" class="wrap sec"><p class="kicker rv">What you get</p><h2 class="rv mask">Built for people who <span class="shine">love the action</span></h2>
 <div class="cards">
-<article class="card reveal"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></div><h3>Every sport</h3><p>Football, basketball, baseball, hockey and props, with breakdowns across the whole calendar.</p></article>
-<article class="card reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></div><h3>Models you control</h3><p>Run AlagoBets models yourself in Discord with simple commands. No spam, just results when you ask for them.</p></article>
-<article class="card reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><h3>Real community</h3><p>Talk lines, sweat games and trade angles with people who care about the details as much as you do.</p></article>
+<article class="card tilt rv"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></div><h3>Every sport</h3><p>Football, basketball, baseball, hockey, tennis and props, with breakdowns across the whole calendar.</p></article>
+<article class="card tilt rv"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></div><h3>Models you control</h3><p>Run AlagoBets models yourself in Discord with simple commands. No spam, just results when you ask for them.</p></article>
+<article class="card tilt rv"><div class="ic"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><h3>Real community</h3><p>Talk lines, sweat games and trade angles with people who care about the details as much as you do.</p></article>
 </div></section>
 
-<section id="wins" class="wrap sec"><p class="kicker reveal">Receipts</p><h2 class="reveal">Recent <span class="shine">wins</span></h2>
-<div class="slips">
-<figure class="slip reveal"><button class="zoom" data-src="images/win1.jpg" data-cap="Oklahoma (vs Texas) · 10/10/26" aria-label="Enlarge Kalshi slip: Oklahoma vs Texas, NCAAF"><img src="images/win1.jpg" loading="lazy" decoding="async" width="800" alt="Kalshi slip: Oklahoma vs Texas, NCAAF"></button><figcaption><span class="lg">Kalshi · NCAAF</span><h3>Oklahoma (vs Texas)</h3><p>Cost $129.28 · Paid $219.93</p><div class="row"><b class="win">+$90.65</b><time>10/10/26</time></div></figcaption></figure>
-<figure class="slip reveal"><button class="zoom" data-src="images/win2.jpg" data-cap="Kachmazov · 10/11/26" aria-label="Enlarge Kalshi slip: Kachmazov, ATP Challenger"><img src="images/win2.jpg" loading="lazy" decoding="async" width="800" alt="Kalshi slip: Kachmazov, ATP Challenger"></button><figcaption><span class="lg">Kalshi · ATP Challenger</span><h3>Kachmazov</h3><p>Cost $143.16 · Paid $241.48</p><div class="row"><b class="win">+$98.33</b><time>10/11/26</time></div></figcaption></figure>
-<figure class="slip reveal"><button class="zoom" data-src="images/win3.jpg" data-cap="Set 4 winner: Sychra Martin · 10/12/26" aria-label="Enlarge Live tennis slip: Sychra Martin to win set 4"><img src="images/win3.jpg" loading="lazy" decoding="async" width="800" alt="Live tennis slip: Sychra Martin to win set 4"></button><figcaption><span class="lg">Live tennis</span><h3>Set 4 winner: Sychra Martin</h3><p>$25 to win $187.50 · Return $212.50</p><div class="row"><b class="win">+$187.50</b><time>10/12/26</time></div></figcaption></figure>
-<figure class="slip reveal"><button class="zoom" data-src="images/win4.jpg" data-cap="No: Shnaider · 10/4/26" aria-label="Enlarge Kalshi slip: No on Shnaider, WTA Beijing"><img src="images/win4.jpg" loading="lazy" decoding="async" width="800" alt="Kalshi slip: No on Shnaider, WTA Beijing"></button><figcaption><span class="lg">Kalshi · WTA Beijing</span><h3>No: Shnaider</h3><p>Cost $100 · Paid $273.28</p><div class="row"><b class="win">+$173.28</b><time>10/4/26</time></div></figcaption></figure>
-</div><p class="note reveal">Past results don't guarantee future wins.</p></section>
+<section id="wins" class="sec"><div class="wrap"><p class="kicker rv">Receipts</p><h2 class="rv mask">Recent <span class="shine">wins</span></h2></div>
+<div class="carousel rv" id="car" tabindex="0" aria-label="Recent winning slips, scroll or drag horizontally"><div class="ctrack">
+<figure class="slip tilt"><button class="zoom" type="button" data-src="images/win1.jpg" data-cap="Oklahoma (vs Texas) · 10/10/26" aria-label="Enlarge: Kalshi slip: Oklahoma vs Texas, NCAAF"><img src="images/win1.jpg" loading="lazy" decoding="async" width="800" height="760" alt="Kalshi slip: Oklahoma vs Texas, NCAAF" draggable="false"></button><figcaption><span class="lg">Kalshi · NCAAF</span><h3>Oklahoma (vs Texas)</h3><p>Cost $129.28 · Paid $219.93</p><div class="row"><b class="win">+$<span class="count" data-to="90.65">90.65</span></b><time>10/10/26</time></div></figcaption></figure>
+<figure class="slip tilt"><button class="zoom" type="button" data-src="images/win2.jpg" data-cap="Kachmazov · 10/11/26" aria-label="Enlarge: Kalshi slip: Kachmazov, ATP Challenger"><img src="images/win2.jpg" loading="lazy" decoding="async" width="800" height="760" alt="Kalshi slip: Kachmazov, ATP Challenger" draggable="false"></button><figcaption><span class="lg">Kalshi · ATP Challenger</span><h3>Kachmazov</h3><p>Cost $143.16 · Paid $241.48</p><div class="row"><b class="win">+$<span class="count" data-to="98.33">98.33</span></b><time>10/11/26</time></div></figcaption></figure>
+<figure class="slip tilt"><button class="zoom" type="button" data-src="images/win3.jpg" data-cap="Set 4 winner: Sychra Martin · 10/12/26" aria-label="Enlarge: Live tennis slip: Sychra Martin to win set 4"><img src="images/win3.jpg" loading="lazy" decoding="async" width="800" height="760" alt="Live tennis slip: Sychra Martin to win set 4" draggable="false"></button><figcaption><span class="lg">Live tennis</span><h3>Set 4 winner: Sychra Martin</h3><p>$25 to win $187.50 · Return $212.50</p><div class="row"><b class="win">+$<span class="count" data-to="187.50">187.50</span></b><time>10/12/26</time></div></figcaption></figure>
+<figure class="slip tilt"><button class="zoom" type="button" data-src="images/win4.jpg" data-cap="No: Shnaider · 10/4/26" aria-label="Enlarge: Kalshi slip: No on Shnaider, WTA Beijing"><img src="images/win4.jpg" loading="lazy" decoding="async" width="800" height="760" alt="Kalshi slip: No on Shnaider, WTA Beijing" draggable="false"></button><figcaption><span class="lg">Kalshi · WTA Beijing</span><h3>No: Shnaider</h3><p>Cost $100 · Paid $273.28</p><div class="row"><b class="win">+$<span class="count" data-to="173.28">173.28</span></b><time>10/4/26</time></div></figcaption></figure>
+</div></div>
+<div class="wrap car-ctl"><button class="cbtn" id="prev" type="button" aria-label="Previous slip">‹</button><p class="note">Past results don't guarantee future wins.</p><button class="cbtn" id="next" type="button" aria-label="Next slip">›</button></div>
+</section>
 
-<section id="how" class="wrap sec"><p class="kicker reveal">How it works</p><h2 class="reveal">In the room in <span class="shine">three steps</span></h2>
-<ol class="steps">
-<li class="card reveal"><span class="n">01</span><h3>Join free</h3><p>Sign up on Winible. No cost, no catch.</p></li>
-<li class="card reveal"><span class="n">02</span><h3>Hop into Discord</h3><p>Say what's up and find your sport's channel.</p></li>
-<li class="card reveal"><span class="n">03</span><h3>Use the models</h3><p>Type a command, get the read, make your own call.</p></li></ol>
-<p class="center reveal"><a class="link" href="https://alagocodes.github.io/alagobets-record/" target="_blank" rel="noopener">View the public record →</a></p></section>
+<section id="how" class="wrap sec"><p class="kicker rv">How it works</p><h2 class="rv mask">In the room in <span class="shine">three steps</span></h2>
+<ol class="timeline" id="tl"><i class="tl-line" aria-hidden="true"><i id="tlFill"></i></i>
+<li class="rv"><span class="n">01</span><div class="card tilt"><h3>Join free</h3><p>Sign up on Winible. No cost, no catch.</p></div></li>
+<li class="rv"><span class="n">02</span><div class="card tilt"><h3>Hop into Discord</h3><p>Say what's up and find your sport's channel.</p></div></li>
+<li class="rv"><span class="n">03</span><div class="card tilt"><h3>Use the models</h3><p>Type a command, get the read, make your own call.</p></div></li></ol>
+<p class="center rv"><a class="link" href="https://alagocodes.github.io/alagobets-record/" target="_blank" rel="noopener">View the public record →</a></p></section>
 
-<section id="join" class="wrap sec"><div class="final reveal"><h2>Ready to <span class="shine">roll with us?</span></h2><p>The whole community is free. Pull up.</p>
-<a class="btn gold" href="https://www.winible.com/checkout/free-plan?creatorId=1459934347283943425" target="_blank" rel="noopener">Join Free <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+<section id="join" class="wrap sec"><div class="final rv"><div class="final-in">
+<img src="logo-icon.png" alt="" width="69" height="72" class="final-ic">
+<h2>Ready to <span class="shine">roll with us?</span></h2><p>The whole community is free. Pull up.</p>
+<a class="btn gold magnetic pulse big" href="https://www.winible.com/checkout/free-plan?creatorId=1459934347283943425" target="_blank" rel="noopener"><span>Join Free <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
 <div class="social">
-<a href="https://discord.gg/qv9yThhm7e" target="_blank" rel="noopener" aria-label="Discord"><svg viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M20.3 4.4A19.8 19.8 0 0 0 15.4 3l-.6 1.3a18 18 0 0 0-5.6 0L8.6 3a19.7 19.7 0 0 0-4.9 1.4C.6 9 0 13.6.3 18.1a19.9 19.9 0 0 0 6 3l1.3-2.1-2-1 .5-.4a14.2 14.2 0 0 0 12 0l.5.4-2 1 1.3 2.1a19.8 19.8 0 0 0 6-3c.4-5.2-.8-9.8-3.6-13.7zM8.5 15.3c-1.2 0-2.2-1.1-2.2-2.4s1-2.4 2.2-2.4 2.2 1.1 2.2 2.4-1 2.4-2.2 2.4zm7 0c-1.2 0-2.2-1.1-2.2-2.4s1-2.4 2.2-2.4 2.2 1.1 2.2 2.4-1 2.4-2.2 2.4z"/></svg></a>
-<a href="https://x.com/itsalago" target="_blank" rel="noopener" aria-label="X @itsAlago"><svg viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M18.2 2.3h3.4l-7.4 8.4L23 21.7h-6.8l-5.3-7-6.1 7H1.4l7.9-9L1 2.3h7l4.8 6.4zm-1.2 17.4h1.9L7.1 4.2h-2z"/></svg></a>
-<a href="https://www.instagram.com/alagobets" target="_blank" rel="noopener" aria-label="Instagram @AlagoBets"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a></div></div></section>
+<a class="magnetic" href="https://discord.gg/qv9yThhm7e" target="_blank" rel="noopener" aria-label="Discord"><svg viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M20.3 4.4A19.8 19.8 0 0 0 15.4 3l-.6 1.3a18 18 0 0 0-5.6 0L8.6 3a19.7 19.7 0 0 0-4.9 1.4C.6 9 0 13.6.3 18.1a19.9 19.9 0 0 0 6 3l1.3-2.1-2-1 .5-.4a14.2 14.2 0 0 0 12 0l.5.4-2 1 1.3 2.1a19.8 19.8 0 0 0 6-3c.4-5.2-.8-9.8-3.6-13.7zM8.5 15.3c-1.2 0-2.2-1.1-2.2-2.4s1-2.4 2.2-2.4 2.2 1.1 2.2 2.4-1 2.4-2.2 2.4zm7 0c-1.2 0-2.2-1.1-2.2-2.4s1-2.4 2.2-2.4 2.2 1.1 2.2 2.4-1 2.4-2.2 2.4z"/></svg></a>
+<a class="magnetic" href="https://x.com/itsalago" target="_blank" rel="noopener" aria-label="X @itsAlago"><svg viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M18.2 2.3h3.4l-7.4 8.4L23 21.7h-6.8l-5.3-7-6.1 7H1.4l7.9-9L1 2.3h7l4.8 6.4zm-1.2 17.4h1.9L7.1 4.2h-2z"/></svg></a>
+<a class="magnetic" href="https://www.instagram.com/alagobets" target="_blank" rel="noopener" aria-label="Instagram @AlagoBets"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a></div></div></div></section>
 </main>
-<footer class="wrap"><a href="#top" class="brand"><img src="logo-icon.png" height="28" style="height:28px;width:auto" alt=""><span>ALAGO<b>BETS</b></span></a>
-<p><strong>21+ only.</strong> Gambling problem? Call <a href="tel:18004262537">1-800-GAMBLER</a>. Content is for entertainment and informational purposes only; no outcome is guaranteed. Bet responsibly and within your means.</p><p class="copy">© <span id="y">2026</span> AlagoBets</p></footer>
-<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Slip preview" hidden><button class="x" aria-label="Close">×</button><img alt=""><p></p></div>
+<footer><div class="wrap"><a href="#top" class="brand fbrand"><img src="logo-icon.png" height="30" style="height:30px;width:auto" alt=""><span>ALAGO<b>BETS</b></span></a>
+<p><strong>21+ only.</strong> Gambling problem? Call <a href="tel:18004262537">1-800-GAMBLER</a>. Content is for entertainment and informational purposes only; no outcome is guaranteed. Bet responsibly and within your means.</p><p class="copy">© <span id="y">2026</span> AlagoBets</p></div></footer>
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Slip preview" hidden><button class="x" type="button" aria-label="Close">×</button><img alt=""><p></p></div>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
 <script src="main.js" defer></script></body></html>
