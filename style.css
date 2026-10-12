@@ -85,7 +85,7 @@ h2{font-size:clamp(2.1rem,5.4vw,3.6rem);line-height:1.06;text-align:center;margi
 .card h3{font-size:1.28rem;margin:20px 0 8px}.card p{color:var(--mut)}
 .ic{width:50px;height:50px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,rgba(206,155,46,.22),rgba(61,220,132,.12));border:1px solid var(--line);color:var(--gold2);transform:translateZ(30px)}
 /* carousel */
-.carousel{overflow-x:auto;overflow-y:visible;scrollbar-width:none;cursor:grab;padding:20px 0 30px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);scroll-snap-type:x proximity}
+.carousel{overflow-x:auto;overflow-y:visible;scrollbar-width:none;cursor:grab;padding:20px 0 30px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
 .carousel::-webkit-scrollbar{display:none}.carousel.drag{cursor:grabbing;scroll-snap-type:none}.carousel.drag .slip{pointer-events:none}
 .ctrack{display:flex;gap:24px;width:max-content;padding:0 max(22px,calc(50vw - 560px))}
 .slip{--mx:50%;--my:50%;position:relative;flex:0 0 clamp(260px,72vw,330px);scroll-snap-align:center;border-radius:24px;overflow:hidden;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.015));border:1px solid rgba(255,255,255,.08);user-select:none}
@@ -124,3 +124,4 @@ footer p{max-width:660px;margin:0 auto}footer a[href^=tel]{color:var(--gold2)}.c
 .bi32{height:32px;width:auto}.bi30{height:30px;width:auto}.bi28{height:28px;width:auto}[data-d=".1s"]{--d:.1s}[data-d=".7s"]{--d:.7s}[data-d=".85s"]{--d:.85s}
 footer a[href^=tel]{text-decoration:underline;text-underline-offset:3px}
 .set .bl{height:44px;width:auto;flex:none;display:block}.set .bl-fd{height:36px}.set .bl-dk{height:48px}.set .bl-bo{height:30px}.set{min-height:48px}.tm{margin-top:10px;font-size:.78rem;color:#8e8a7c}@media(max-width:600px){.set .bl{height:28px}.set .bl-fd{height:23px}.set .bl-dk{height:32px}.set .bl-bo{height:19px}.set{gap:24px;padding-right:24px}}
+.car-ctl{position:relative;z-index:20}.cbtn{position:relative;z-index:21;width:56px;height:56px;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none;display:grid;place-items:center;font-size:1.9rem}.cbtn:active{transform:scale(.9);background:var(--gold);color:#140f05;border-color:var(--gold)}

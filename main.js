@@ -64,19 +64,28 @@ if(cv&&!RM){const ctx=cv.getContext('2d');let W,Hh,dpr=Math.min(devicePixelRatio
   ctx.shadowBlur=0;requestAnimationFrame(draw)}
  requestAnimationFrame(draw)}
 
-/* carousel: drag + auto-scroll + buttons */
+/* carousel: drag + auto-scroll + arrows (single scroll owner, no fighting) */
 const car=$('#car');
-if(car){let down=false,sx=0,sl=0,moved=0,paused=false,auto=!RM,pos=car.scrollLeft;
- car.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse')return;down=true;moved=0;sx=e.clientX;sl=car.scrollLeft;car._pid=e.pointerId});
- car.addEventListener('pointermove',e=>{if(!down)return;const d=e.clientX-sx;moved=Math.max(moved,Math.abs(d));if(moved>5&&!car.classList.contains('drag')){car.classList.add('drag');try{car.setPointerCapture(car._pid)}catch(_){}}car.scrollLeft=sl-d;pos=car.scrollLeft});
- const up=()=>{down=false;setTimeout(()=>car.classList.remove('drag'),0)};car.addEventListener('pointerup',up);car.addEventListener('pointercancel',up);
+if(car){let down=false,sx=0,sl=0,moved=0,hover=false,pos=car.scrollLeft,last=pos,target=null,hold=0,dir=1,cvis=false;
+ const now=()=>performance.now(),max=()=>car.scrollWidth-car.clientWidth,pauseFor=ms=>hold=Math.max(hold,now()+ms);
+ const cardW=()=>car.querySelector('.slip').offsetWidth+24;
+ car.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse')return;down=true;moved=0;sx=e.clientX;sl=car.scrollLeft;car._pid=e.pointerId;target=null});
+ car.addEventListener('pointermove',e=>{if(!down)return;const d=e.clientX-sx;moved=Math.max(moved,Math.abs(d));if(moved>5&&!car.classList.contains('drag')){car.classList.add('drag');try{car.setPointerCapture(car._pid)}catch(_){}}if(moved>5){car.scrollLeft=sl-d;pos=last=car.scrollLeft}});
+ const up=()=>{if(!down)return;down=false;pauseFor(2500);setTimeout(()=>car.classList.remove('drag'),0)};car.addEventListener('pointerup',up);car.addEventListener('pointercancel',up);
  car.addEventListener('click',e=>{if(moved>5){e.preventDefault();e.stopPropagation();moved=0}},true);
- ['pointerenter','focusin','touchstart'].forEach(ev=>car.addEventListener(ev,()=>paused=true,{passive:true}));['pointerleave','focusout'].forEach(ev=>car.addEventListener(ev,()=>{paused=false;pos=car.scrollLeft}));
- let dir=1,cvis=false;new IntersectionObserver(([e])=>cvis=e.isIntersecting).observe(car);
- const tick=()=>{if(auto&&cvis&&!paused&&!down){const max=car.scrollWidth-car.clientWidth;pos+=.45*dir;if(pos>=max){pos=max;dir=-1}if(pos<=0){pos=0;dir=1}car.scrollLeft=pos}requestAnimationFrame(tick)};requestAnimationFrame(tick);
- const stepBy=d=>{const w=car.querySelector('.slip').offsetWidth+24;car.scrollBy({left:d*w,behavior:RM?'auto':'smooth'});setTimeout(()=>pos=car.scrollLeft,600)};
- $('#prev').onclick=()=>stepBy(-1);$('#next').onclick=()=>stepBy(1);
- car.addEventListener('keydown',e=>{if(e.key==='ArrowRight')stepBy(1);if(e.key==='ArrowLeft')stepBy(-1)})}
+ car.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse')hover=true});car.addEventListener('pointerleave',()=>hover=false);
+ car.addEventListener('touchstart',()=>{target=null;pauseFor(4000)},{passive:true});car.addEventListener('focusin',()=>pauseFor(6000));
+ new IntersectionObserver(([e])=>cvis=e.isIntersecting).observe(car);
+ const tick=()=>{const cur=car.scrollLeft,m=max();
+  if(Math.abs(cur-last)>1.5&&target===null){pos=cur}/* user swiped/scrolled natively */
+  if(target!==null){pos+=(target-pos)*(RM?1:.16);if(Math.abs(target-pos)<.6){pos=target;target=null}car.scrollLeft=pos}
+  else if(!RM&&cvis&&!hover&&!down&&now()>hold){pos+=.45*dir;if(pos>=m){pos=m;dir=-1}if(pos<=0){pos=0;dir=1}car.scrollLeft=pos}
+  last=car.scrollLeft;requestAnimationFrame(tick)};requestAnimationFrame(tick);
+ const go=d=>{const w=cardW(),m=max(),base=target!==null?target:car.scrollLeft;let t;if(d>0&&base>=m-4)t=0;else if(d<0&&base<=4)t=m;/* wrap around at ends */
+  else t=Math.round(base/w)*w+d*w;
+  target=Math.min(m,Math.max(0,t));pauseFor(5000)};
+ [['#prev',-1],['#next',1]].forEach(([id,d])=>{const btn=$(id);btn.addEventListener('click',e=>{e.preventDefault();go(d)})});
+ car.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){e.preventDefault();go(1)}if(e.key==='ArrowLeft'){e.preventDefault();go(-1)}})}
 
 /* lightbox */
 const lb=$('#lb'),li=lb.querySelector('img'),lp=lb.querySelector('p');let last;
