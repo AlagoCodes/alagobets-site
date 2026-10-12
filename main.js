@@ -1,0 +1,10 @@
+const $=s=>document.querySelector(s);$('#y').textContent=new Date().getFullYear();
+const nav=$('#nav'),b=$('.burger');addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>10),{passive:true});
+b.onclick=()=>{const o=nav.classList.toggle('open');b.setAttribute('aria-expanded',o)};
+document.querySelectorAll('#menu a').forEach(a=>a.onclick=()=>{nav.classList.remove('open');b.setAttribute('aria-expanded',false)});
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+const lb=$('#lb'),li=lb.querySelector('img'),lp=lb.querySelector('p');let last;
+const close=()=>{lb.hidden=true;document.body.style.overflow='';last&&last.focus()};
+document.querySelectorAll('.zoom').forEach(z=>z.onclick=()=>{last=z;li.src=z.dataset.src;li.alt=z.querySelector('img').alt;lp.textContent=z.dataset.cap;lb.hidden=false;document.body.style.overflow='hidden';lb.querySelector('.x').focus()});
+lb.onclick=e=>{if(e.target!==li)close()};addEventListener('keydown',e=>{if(e.key==='Escape'&&!lb.hidden)close()});
