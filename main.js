@@ -93,3 +93,25 @@ const close=()=>{lb.hidden=true;lenis&&lenis.start();document.body.style.overflo
 $$('.zoom').forEach(z=>z.addEventListener('click',()=>{last=z;li.src=z.dataset.src;li.alt=z.querySelector('img').alt;lp.textContent=z.dataset.cap;lb.hidden=false;lenis&&lenis.stop();document.body.style.overflow='hidden';lb.querySelector('.x').focus()}));
 lb.addEventListener('click',e=>{if(e.target!==li)close()});addEventListener('keydown',e=>{if(!lb.hidden&&(e.key==='Escape'||e.key==='Tab')){if(e.key==='Tab'){e.preventDefault();lb.querySelector('.x').focus()}else close()}});
 })();
+/* ===== polish pass ===== */
+(()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* ripple */
+if(!RM)$$('.btn').forEach(b=>b.addEventListener('pointerdown',e=>{const r=b.getBoundingClientRect(),d=Math.max(r.width,r.height)*2.2,s=document.createElement('span');s.className='ripple';s.style.width=s.style.height=d+'px';s.style.left=e.clientX-r.left-d/2+'px';s.style.top=e.clientY-r.top-d/2+'px';b.appendChild(s);setTimeout(()=>s.remove(),700)}));
+/* active nav */
+const links=$$('#menu a[href^="#"]'),map=new Map(links.map(a=>[a.getAttribute('href').slice(1),a]));
+const nio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){links.forEach(a=>{a.classList.remove('active');a.removeAttribute('aria-current')});const a=map.get(e.target.id);if(a){a.classList.add('active');a.setAttribute('aria-current','true')}}}),{rootMargin:'-45% 0px -50% 0px'});
+['about','models','wins','how','community','faq','join'].forEach(id=>{const s=document.getElementById(id);s&&nio.observe(s)});
+/* back to top ring + mobile bar */
+const tt=$('#totop'),ring=$('#ring'),mbar=$('#mbar'),hero=$('.hero'),join=$('#join'),C=132;
+const upd=()=>{const y=scrollY,max=document.documentElement.scrollHeight-innerHeight,p=max>0?y/max:0;ring.style.strokeDashoffset=C*(1-p);tt.classList.toggle('show',y>innerHeight*.8);
+ const pastHero=hero.getBoundingClientRect().bottom<0,jr=join.getBoundingClientRect(),nearJoin=jr.top<innerHeight;const show=pastHero&&!nearJoin;mbar.classList.toggle('show',show);tt.classList.toggle('lift',show)};
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);upd();
+/* discord invite counts (public API, graceful fallback) */
+const ctrl=new AbortController();setTimeout(()=>ctrl.abort(),6000);
+fetch('https://discord.com/api/v9/invites/qv9yThhm7e?with_counts=true',{signal:ctrl.signal}).then(r=>r.ok?r.json():Promise.reject()).then(d=>{
+ const g=d.guild||{},on=d.approximate_presence_count,mem=d.approximate_member_count,f=n=>Number(n).toLocaleString('en-US');
+ if(g.name)$('#invName').textContent=g.name;
+ if(Number.isFinite(on)&&Number.isFinite(mem)){const c=$('#invCounts');c.textContent='';[['on',f(on)+' Online'],['mem',f(mem)+' Members']].forEach(([k,t])=>{const s=document.createElement('span'),i=document.createElement('i'),b=document.createElement('b');i.className=k;b.textContent=t;s.append(i,b);c.append(s)})}
+ if(g.id&&g.icon&&/^[a-f0-9_]+$/i.test(g.icon)&&/^\d+$/.test(g.id)){const im=new Image();im.onload=()=>{const ic=$('#invIcon');ic.src=im.src;ic.style.padding='0'};im.src=`https://cdn.discordapp.com/icons/${g.id}/${g.icon}.png?size=128`}
+}).catch(()=>{});
+})();
