@@ -250,3 +250,4 @@ nav.fcol a:after{display:none}
 @media(max-width:760px){nav.fcol a{font-size:.92rem}}
 [data-d="1s"]{--d:1s}footer .fh{margin:0 0 4px;max-width:none}
 .d-app{background:#4752c4}.d-name time{color:#b5bac1}.d-foot{color:#b5bac1}
+.d-bot{visibility:hidden}.demo.thinking .d-bot,.demo.replied .d-bot{visibility:visible}
