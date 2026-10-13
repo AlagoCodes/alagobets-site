@@ -112,7 +112,7 @@ const inv=document.getElementById('community');
 if(inv){const API='https://discord.com/api/v9/invites/qv9yThhm7e?with_counts=true',BASE=60000,MAXB=600000;
  let seen=false,onScreen=false,timer=0,delay=BASE,busy=false,lastAt=0,cur={on:null,mem:null},els=null;
  const fmt=n=>Math.round(n).toLocaleString('en-US');
- const build=()=>{const c=$('#invCounts');c.textContent='';els={};[['on','Online'],['mem','Members']].forEach(([k,l])=>{const s=document.createElement('span'),i=document.createElement('i'),b=document.createElement('b'),n=document.createElement('span');i.className=k;n.className='n';b.append(n,' '+l);s.append(i,b);c.append(s);els[k]={n,dot:i}})};
+ const build=()=>{const c=$('#invCounts');c.textContent='';els={};[['on','Online'],['mem','Members']].forEach(([k,l])=>{const s=document.createElement('span'),i=document.createElement('i'),b=document.createElement('b'),n=document.createElement('span');i.className=k;n.className='cnt';b.append(n,' '+l);s.append(i,b);c.append(s);els[k]={n,dot:i}})};
  const tween=(el,from,to)=>{if(RM||from===null){el.textContent=fmt(to);return}const t0=performance.now(),d=900;const f=t=>{const k=Math.min(1,(t-t0)/d),e=1-Math.pow(1-k,3);el.textContent=fmt(from+(to-from)*e);if(k<1)requestAnimationFrame(f)};requestAnimationFrame(f)};
  const render=(on,mem)=>{if(!els)build();const ch=cur.on!==null&&(on!==cur.on||mem!==cur.mem);tween(els.on.n,cur.on,on);tween(els.mem.n,cur.mem,mem);
   if(ch&&!RM){[els.on.dot,els.mem.dot].forEach(d=>{d.classList.remove('bump');void d.offsetWidth;d.classList.add('bump')})}cur={on,mem}};
@@ -127,8 +127,7 @@ if(inv){const API='https://discord.com/api/v9/invites/qv9yThhm7e?with_counts=tru
    delay=Math.min(MAXB,Math.max(e&&e.retry||0,delay*2))/* keep last good values, back off quietly */}).finally(()=>{clearTimeout(kill);busy=false;schedule(delay)})};
  new IntersectionObserver(([e])=>{onScreen=e.isIntersecting;if(onScreen&&!seen){seen=true;poll()}else if(onScreen){if(!timer&&!busy)schedule(Date.now()-lastAt>=delay?0:delay-(Date.now()-lastAt))}else{clearTimeout(timer);timer=0}},{rootMargin:'600px 0px'}).observe(inv);
  document.addEventListener('visibilitychange',()=>{if(document.hidden){clearTimeout(timer);timer=0}else if(seen&&onScreen&&!busy&&Date.now()-lastAt>5000){delay=Math.min(delay,BASE);poll()}else schedule(delay)});
- addEventListener('focus',()=>{if(seen&&onScreen&&!busy&&Date.now()-lastAt>5000)poll()});
- window.__abInvite={poll,get state(){return{cur,delay,active:active(),timer:!!timer}}}}
+ addEventListener('focus',()=>{if(seen&&onScreen&&!busy&&Date.now()-lastAt>5000)poll()});}
 })();
 
 /* copy-on-click command chips */
@@ -136,3 +135,8 @@ if(inv){const API='https://discord.com/api/v9/invites/qv9yThhm7e?with_counts=tru
 const fallback=s=>{const a=document.createElement('textarea');a.value=s;a.setAttribute('readonly','');a.style.position='fixed';a.style.opacity='0';document.body.appendChild(a);a.select();let ok=false;try{ok=document.execCommand('copy')}catch(e){}a.remove();return ok};
 document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',async()=>{const s=c.dataset.cmd;let ok=false;try{await navigator.clipboard.writeText(s);ok=true}catch(e){ok=fallback(s)}
 c.classList.add('copied');setTimeout(()=>c.classList.remove('copied'),1200);show(ok?`Copied ${s} — paste it in Discord`:`Type ${s} in Discord`)}))})();
+
+/* discord demo: type the command, then reveal the reply (once, when visible) */
+(()=>{const box=document.getElementById('demoBox');if(!box)return;const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;const ty=box.querySelector('.d-type'),txt=ty.dataset.text;
+const done=()=>{ty.textContent=txt;box.classList.add('typed','replied')};if(RM){done();return}
+const io=new IntersectionObserver(([e])=>{if(!e.isIntersecting)return;io.disconnect();let k=0;const step=()=>{ty.textContent=txt.slice(0,++k);if(k<txt.length)setTimeout(step,85+Math.random()*60);else{box.classList.add('typed');setTimeout(()=>box.classList.add('thinking'),350);setTimeout(()=>{box.classList.remove('thinking');box.classList.add('replied')},1500)}};setTimeout(step,500)},{threshold:.4});io.observe(box)})();
