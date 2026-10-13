@@ -175,9 +175,24 @@ const optsHtml=d=>d.opts?' '+d.opts.map(o=>`<span class="d-opt">${o}</span>`).jo
 const play=k=>{const id=++run,d=D[k];fill(k);box.classList.remove('typed','thinking','replied');ty.innerHTML='';
  if(RM){ty.innerHTML=d.cmd+optsHtml(d);box.classList.add('typed','replied');return}
  let i=0;const step=()=>{if(id!==run)return;ty.textContent=d.cmd.slice(0,++i);if(i<d.cmd.length)setTimeout(step,70+Math.random()*50);else{ty.innerHTML=d.cmd+optsHtml(d);box.classList.add('typed');setTimeout(()=>{if(id===run)box.classList.add('thinking')},300);setTimeout(()=>{if(id!==run)return;box.classList.remove('thinking');box.classList.add('replied')},1250)}};setTimeout(step,250)};
-const select=(k,focus)=>{cur=k;tabs.forEach(t=>{const on=t.dataset.k===k;t.setAttribute('aria-selected',on);t.tabIndex=on?0:-1;if(on&&focus)t.focus()});play(k)};
-const stopAuto=()=>{userTouched=true;clearInterval(auto);auto=null};
-tabs.forEach((t,i)=>{t.addEventListener('click',()=>{stopAuto();select(t.dataset.k)});t.addEventListener('keydown',e=>{let n=null;if(e.key==='ArrowRight')n=(i+1)%tabs.length;if(e.key==='ArrowLeft')n=(i-1+tabs.length)%tabs.length;if(e.key==='Home')n=0;if(e.key==='End')n=tabs.length-1;if(n!==null){e.preventDefault();stopAuto();select(tabs[n].dataset.k,true)}})});
-['pointerenter','focusin','touchstart'].forEach(ev=>box.addEventListener(ev,stopAuto,{passive:true}));
-const keys=tabs.map(t=>t.dataset.k);fill('nfl');
-const io=new IntersectionObserver(([e])=>{if(e.isIntersecting){if(!seen){seen=true;play(cur)}if(!RM&&!userTouched&&!auto)auto=setInterval(()=>{if(document.hidden)return;select(keys[(keys.indexOf(cur)+1)%keys.length])},7000)}else if(auto){clearInterval(auto);auto=null}},{threshold:.35});io.observe(box)})();
+const wrap=document.getElementById('dWrap'),dots=[...document.querySelectorAll('.ddot')],keys=tabs.map(t=>t.dataset.k);
+let held=false,vis=false,idle=0;
+const sync=()=>{wrap.classList.toggle('dpause',held||!vis||document.hidden)};
+const restart=()=>{tabs.forEach(t=>{const b=t.querySelector('.dprog');b.style.animation='none';void b.offsetWidth;b.style.animation=''})};
+const select=(k,focus)=>{cur=k;tabs.forEach(t=>{const on=t.dataset.k===k;t.setAttribute('aria-selected',on);t.tabIndex=on?0:-1;if(on&&focus)t.focus()});dots.forEach(d=>d.setAttribute('aria-current',d.dataset.k===k?'true':'false'));restart();if(on1)t1();play(k)};
+let on1=false;const t1=()=>{const a=tabs.find(t=>t.dataset.k===cur);a&&a.scrollIntoView&&a.parentNode.scrollWidth>a.parentNode.clientWidth&&a.parentNode.scrollTo({left:a.offsetLeft-20,behavior:'smooth'})};
+const step=n=>select(keys[(keys.indexOf(cur)+n+keys.length)%keys.length]);
+const hold=()=>{held=true;clearTimeout(idle);sync()};
+const release=()=>{clearTimeout(idle);idle=setTimeout(()=>{held=false;restart();sync()},8000)};
+const user=fn=>{hold();fn();release()};
+if(!RM){wrap.classList.add('dauto');tabs.forEach(t=>t.querySelector('.dprog').addEventListener('animationend',()=>{if(t.dataset.k===cur&&!held)step(1)}))}
+tabs.forEach((t,i)=>{t.addEventListener('click',()=>user(()=>select(t.dataset.k)));t.addEventListener('keydown',e=>{let n=null;if(e.key==='ArrowRight')n=(i+1)%tabs.length;if(e.key==='ArrowLeft')n=(i-1+tabs.length)%tabs.length;if(e.key==='Home')n=0;if(e.key==='End')n=tabs.length-1;if(n!==null){e.preventDefault();user(()=>select(tabs[n].dataset.k,true))}})});
+dots.forEach(d=>d.addEventListener('click',()=>user(()=>select(d.dataset.k))));
+document.getElementById('dPrev').addEventListener('click',()=>user(()=>step(-1)));document.getElementById('dNext').addEventListener('click',()=>user(()=>step(1)));
+wrap.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse')hold()});wrap.addEventListener('pointerleave',e=>{if(e.pointerType==='mouse')release()});
+wrap.addEventListener('focusin',hold);wrap.addEventListener('focusout',e=>{if(!wrap.contains(e.relatedTarget))release()});
+let sx=0,sy=0;box.addEventListener('touchstart',e=>{hold();sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
+box.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)*1.3)step(dx<0?1:-1);release()},{passive:true});
+document.addEventListener('visibilitychange',sync);
+fill('nfl');dots[0].setAttribute('aria-current','true');sync();
+const io=new IntersectionObserver(([e])=>{vis=e.isIntersecting;if(vis&&!seen){seen=true;play(cur);restart()}sync()},{threshold:.3});io.observe(box)})();
