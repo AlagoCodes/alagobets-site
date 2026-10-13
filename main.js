@@ -107,15 +107,28 @@ const tt=$('#totop'),ring=$('#ring'),mbar=$('#mbar'),hero=$('.hero'),join=$('#jo
 const upd=()=>{const y=scrollY,max=document.documentElement.scrollHeight-innerHeight,p=max>0?y/max:0;ring.style.strokeDashoffset=C*(1-p);tt.classList.toggle('show',y>innerHeight*.8);
  const pastHero=hero.getBoundingClientRect().bottom<0,jr=join.getBoundingClientRect(),nearJoin=jr.top<innerHeight;const show=pastHero&&!nearJoin;mbar.classList.toggle('show',show);tt.classList.toggle('lift',show)};
 addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);upd();
-/* discord invite counts (public API, lazy, no cookies, graceful fallback) */
+/* discord invite counts: live polling (60s while card + tab visible), count-up, backoff, silent errors */
 const inv=document.getElementById('community');
-const loadInv=()=>{const ctrl=new AbortController();setTimeout(()=>ctrl.abort(),6000);
-fetch('https://discord.com/api/v9/invites/qv9yThhm7e?with_counts=true',{signal:ctrl.signal,credentials:'omit',referrerPolicy:'no-referrer'}).then(r=>r.ok?r.json():Promise.reject()).then(d=>{
- const g=d.guild||{},on=d.approximate_presence_count,mem=d.approximate_member_count,f=n=>Number(n).toLocaleString('en-US');
- if(g.name)$('#invName').textContent=g.name;
- if(Number.isFinite(on)&&Number.isFinite(mem)){const c=$('#invCounts');c.textContent='';[['on',f(on)+' Online'],['mem',f(mem)+' Members']].forEach(([k,t])=>{const s=document.createElement('span'),i=document.createElement('i'),b=document.createElement('b');i.className=k;b.textContent=t;s.append(i,b);c.append(s)})}
-}).catch(()=>{})};
-if(inv){const vio=new IntersectionObserver(([e])=>{if(e.isIntersecting){vio.disconnect();loadInv()}},{rootMargin:'600px 0px'});vio.observe(inv)}
+if(inv){const API='https://discord.com/api/v9/invites/qv9yThhm7e?with_counts=true',BASE=60000,MAXB=600000;
+ let seen=false,onScreen=false,timer=0,delay=BASE,busy=false,lastAt=0,cur={on:null,mem:null},els=null;
+ const fmt=n=>Math.round(n).toLocaleString('en-US');
+ const build=()=>{const c=$('#invCounts');c.textContent='';els={};[['on','Online'],['mem','Members']].forEach(([k,l])=>{const s=document.createElement('span'),i=document.createElement('i'),b=document.createElement('b'),n=document.createElement('span');i.className=k;n.className='n';b.append(n,' '+l);s.append(i,b);c.append(s);els[k]={n,dot:i}})};
+ const tween=(el,from,to)=>{if(RM||from===null){el.textContent=fmt(to);return}const t0=performance.now(),d=900;const f=t=>{const k=Math.min(1,(t-t0)/d),e=1-Math.pow(1-k,3);el.textContent=fmt(from+(to-from)*e);if(k<1)requestAnimationFrame(f)};requestAnimationFrame(f)};
+ const render=(on,mem)=>{if(!els)build();const ch=cur.on!==null&&(on!==cur.on||mem!==cur.mem);tween(els.on.n,cur.on,on);tween(els.mem.n,cur.mem,mem);
+  if(ch&&!RM){[els.on.dot,els.mem.dot].forEach(d=>{d.classList.remove('bump');void d.offsetWidth;d.classList.add('bump')})}cur={on,mem}};
+ const active=()=>seen&&onScreen&&!document.hidden;
+ const schedule=ms=>{clearTimeout(timer);timer=0;if(active())timer=setTimeout(poll,ms)};
+ const poll=()=>{if(busy)return;busy=true;lastAt=Date.now();const ctrl=new AbortController(),kill=setTimeout(()=>ctrl.abort(),8000);
+  fetch(API,{signal:ctrl.signal,credentials:'omit',referrerPolicy:'no-referrer',cache:'no-store'}).then(r=>{
+   if(r.status===429){const ra=parseFloat(r.headers.get('retry-after'));throw{retry:Number.isFinite(ra)?ra*1000:null}}
+   if(!r.ok)throw{};return r.json()}).then(d=>{
+   const g=d.guild||{},on=d.approximate_presence_count,mem=d.approximate_member_count;if(g.name)$('#invName').textContent=g.name;
+   if(Number.isFinite(on)&&Number.isFinite(mem))render(on,mem);delay=BASE}).catch(e=>{
+   delay=Math.min(MAXB,Math.max(e&&e.retry||0,delay*2))/* keep last good values, back off quietly */}).finally(()=>{clearTimeout(kill);busy=false;schedule(delay)})};
+ new IntersectionObserver(([e])=>{onScreen=e.isIntersecting;if(onScreen&&!seen){seen=true;poll()}else if(onScreen){if(!timer&&!busy)schedule(Date.now()-lastAt>=delay?0:delay-(Date.now()-lastAt))}else{clearTimeout(timer);timer=0}},{rootMargin:'600px 0px'}).observe(inv);
+ document.addEventListener('visibilitychange',()=>{if(document.hidden){clearTimeout(timer);timer=0}else if(seen&&onScreen&&!busy&&Date.now()-lastAt>5000){delay=Math.min(delay,BASE);poll()}else schedule(delay)});
+ addEventListener('focus',()=>{if(seen&&onScreen&&!busy&&Date.now()-lastAt>5000)poll()});
+ window.__abInvite={poll,get state(){return{cur,delay,active:active(),timer:!!timer}}}}
 })();
 
 /* copy-on-click command chips */
