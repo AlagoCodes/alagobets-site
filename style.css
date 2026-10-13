@@ -315,3 +315,5 @@ nav.fcol a:after{display:none}
 .d-body{min-height:0;height:min(600px,calc(100svh - 250px));overflow:auto;padding:14px 12px 16px;gap:12px;overscroll-behavior:contain}
 .d-msg{grid-template-columns:32px 1fr;gap:10px}.d-av{width:32px;height:32px}.d-txt,.d-fv{font-size:.82rem;line-height:1.42}.d-embed{padding:10px 12px}.d-text{font-size:.9rem}.d-bar{padding:10px 14px}}
 @media (hover:hover){.marquee:hover .bl{filter:brightness(1.15)}}.marquee .track{animation-play-state:running!important}@media (prefers-reduced-motion:reduce){.marquee .track{animation:none!important}}
+.dhead{position:sticky;top:76px;z-index:5}.dwrap .dhead .dtabs{position:static}.dhead .d-bar{border-left:1px solid rgba(255,255,255,.08);border-right:1px solid rgba(255,255,255,.08)}
+@media(max-width:520px){.dhead{top:72px}.d-body{height:min(600px,calc(100svh - 290px))}}
