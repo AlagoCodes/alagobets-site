@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://alagocodes.github.io/alagobets-site/sitemap.xml
+Sitemap: https://alagobets.win/sitemap.xml
