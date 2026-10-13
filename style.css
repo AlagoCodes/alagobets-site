@@ -171,9 +171,9 @@ nav a.active:not(.btn){color:var(--ink)}nav a.active:not(.btn):after{transform:s
 
 @media(min-width:680px){.models{grid-template-columns:repeat(2,1fr)}}
 .model{--acc:61,220,132;position:relative;display:flex;flex-direction:column;gap:18px;padding:28px;border-radius:26px;overflow:hidden;isolation:isolate;
-background:linear-gradient(165deg,rgba(255,255,255,.065),rgba(255,255,255,.012) 60%);border:1px solid rgba(255,255,255,.09);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:transform .45s var(--ease),border-color .35s,box-shadow .45s}
+background:linear-gradient(165deg,rgba(255,255,255,.065),rgba(255,255,255,.012) 60%);border:1px solid rgba(255,255,255,.09);transition:transform .45s var(--ease),border-color .35s,box-shadow .45s}
 .model[data-sport=nfl]{--acc:61,220,132}.model[data-sport=nba]{--acc:255,138,61}.model[data-sport=mlb]{--acc:255,92,99}.model[data-sport=nhl]{--acc:90,184,255}.model[data-sport=props]{--acc:240,200,90}
-.m-glow{position:absolute;inset:-40% -20% auto;height:80%;background:radial-gradient(closest-side,rgba(var(--acc),.28),transparent);opacity:0;transition:opacity .5s;z-index:-1;pointer-events:none}
+.m-glow{position:absolute;inset:-40% 0 auto;height:80%;background:radial-gradient(closest-side,rgba(var(--acc),.28),transparent);opacity:0;transition:opacity .5s;z-index:-1;pointer-events:none}
 .model:hover,.model:focus-within{transform:translateY(-6px);border-color:rgba(var(--acc),.45);box-shadow:0 30px 70px -30px rgba(var(--acc),.55)}.model:hover .m-glow,.model:focus-within .m-glow{opacity:1}
 .m-head{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 .m-tile{width:64px;height:64px;flex:none;border-radius:18px;display:grid;place-items:center;color:rgb(var(--acc));
