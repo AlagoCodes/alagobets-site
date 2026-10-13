@@ -251,3 +251,4 @@ nav.fcol a:after{display:none}
 [data-d="1s"]{--d:1s}footer .fh{margin:0 0 4px;max-width:none}
 .d-app{background:#4752c4}.d-name time{color:#b5bac1}.d-foot{color:#b5bac1}
 .d-bot{visibility:hidden}.demo.thinking .d-bot,.demo.replied .d-bot{visibility:visible}
+.d-bot{opacity:1;transition:transform .5s var(--ease)}.demo.thinking .d-embed{opacity:1}
