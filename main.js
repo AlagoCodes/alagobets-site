@@ -101,7 +101,7 @@ if(!RM)$$('.btn').forEach(b=>b.addEventListener('pointerdown',e=>{const r=b.getB
 /* active nav */
 const links=$$('#menu a[href^="#"]'),map=new Map(links.map(a=>[a.getAttribute('href').slice(1),a]));
 const nio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){links.forEach(a=>{a.classList.remove('active');a.removeAttribute('aria-current')});const a=map.get(e.target.id);if(a){a.classList.add('active');a.setAttribute('aria-current','true')}}}),{rootMargin:'-45% 0px -50% 0px'});
-['about','models','wins','how','community','faq','join'].forEach(id=>{const s=document.getElementById(id);s&&nio.observe(s)});
+['about','models','wins','how','community','faq','vip','join'].forEach(id=>{const s=document.getElementById(id);s&&nio.observe(s)});
 /* back to top ring + mobile bar */
 const tt=$('#totop'),ring=$('#ring'),mbar=$('#mbar'),hero=$('.hero'),join=$('#join'),C=132;
 const upd=()=>{const y=scrollY,max=document.documentElement.scrollHeight-innerHeight,p=max>0?y/max:0;ring.style.strokeDashoffset=C*(1-p);tt.classList.toggle('show',y>innerHeight*.8);
