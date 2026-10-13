@@ -11,7 +11,7 @@ if(RM||H.classList.contains('no-intro')){intro&&intro.classList.add('gone')}else
 /* smooth scroll */
 let lenis=null;
 if(!RM&&window.Lenis){lenis=new Lenis({duration:1.15,smoothWheel:true});const raf=t=>{lenis.raf(t);requestAnimationFrame(raf)};requestAnimationFrame(raf)}
-$$('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const id=a.getAttribute('href');const t=id==='#top'?document.body:$(id);if(!t)return;e.preventDefault();lenis?lenis.scrollTo(t,{offset:id==='#top'?0:-76}):t.scrollIntoView({behavior:RM?'auto':'smooth'});if(id!=='#top'&&t.focus){t.setAttribute('tabindex','-1');t.focus({preventScroll:true})}}));
+$$('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const id=a.getAttribute('href');const t=id==='#top'?document.body:$(id);if(!t)return;e.preventDefault();lenis?lenis.scrollTo(t,{offset:id==='#top'?0:-96}):t.scrollIntoView({behavior:RM?'auto':'smooth'});if(id!=='#top'&&t.focus){t.setAttribute('tabindex','-1');t.focus({preventScroll:true})}}));
 
 /* nav */
 const nav=$('#nav'),b=$('.burger');
@@ -41,7 +41,7 @@ if(FINE&&!RM){H.classList.add('has-cursor');const cur=$('.cursor'),dot=$('.c-dot
  addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;dot.style.transform=`translate(${mx}px,${my}px)`},{passive:true});
  const loop=()=>{rx+=(mx-rx)*.18;ry+=(my-ry)*.18;ring.style.transform=`translate(${rx}px,${ry}px)`;requestAnimationFrame(loop)};loop();
  document.addEventListener('pointerover',e=>cur.classList.toggle('hover',!!e.target.closest('a,button,.carousel')));
- document.addEventListener('pointerleave',()=>{mx=my=-99})}
+ document.documentElement.addEventListener('mouseleave',()=>cur.classList.add('away'));document.documentElement.addEventListener('mouseenter',()=>cur.classList.remove('away'));addEventListener('blur',()=>cur.classList.add('away'))}
 
 /* hero logo parallax tilt */
 const logo=$('#heroLogo');
@@ -117,3 +117,9 @@ fetch('https://discord.com/api/v9/invites/qv9yThhm7e?with_counts=true',{signal:c
 }).catch(()=>{})};
 if(inv){const vio=new IntersectionObserver(([e])=>{if(e.isIntersecting){vio.disconnect();loadInv()}},{rootMargin:'600px 0px'});vio.observe(inv)}
 })();
+
+/* copy-on-click command chips */
+(()=>{const t=document.getElementById('toast');let tm;const show=m=>{t.textContent=m;t.classList.add('show');clearTimeout(tm);tm=setTimeout(()=>t.classList.remove('show'),1800)};
+const fallback=s=>{const a=document.createElement('textarea');a.value=s;a.setAttribute('readonly','');a.style.position='fixed';a.style.opacity='0';document.body.appendChild(a);a.select();let ok=false;try{ok=document.execCommand('copy')}catch(e){}a.remove();return ok};
+document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',async()=>{const s=c.dataset.cmd;let ok=false;try{await navigator.clipboard.writeText(s);ok=true}catch(e){ok=fallback(s)}
+c.classList.add('copied');setTimeout(()=>c.classList.remove('copied'),1200);show(ok?`Copied ${s} — paste it in Discord`:`Type ${s} in Discord`)}))})();
