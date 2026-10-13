@@ -138,18 +138,36 @@ c.classList.add('copied');setTimeout(()=>c.classList.remove('copied'),1200);show
 
 /* discord demo: 5 model tabs; reply layouts mirror each bot's real output (titles/labels from bot code), values are placeholders */
 (()=>{const box=document.getElementById('demoBox');if(!box)return;const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
-const sk=w=>`<i class="sk w${w}"></i>`;
 const D={
- nfl:{ch:'alago-nfl-model',bot:'Alago NFL Model',cmd:'/nflslate',sr:'the Alago NFL Model replies with an NFL slate breakdown: best supported straight bet, best supported player prop, best potential +EV opportunity, best-supported parlay candidates, and games and markets worth monitoring.',
-  html:`<div class="d-txt"><p><b>🏈 ALAGO PROPS | NFL SLATE BREAKDOWN</b> ${sk(30)}</p><p class="d-sub">Analysis ${sk(40)}</p>${['1. Best supported straight bet:','2. Best supported player prop:','3. Best potential +EV opportunity:','4. Best-supported parlay candidates:','5. Games and markets worth monitoring:'].map((l,i)=>`<p class="d-line"><b>${l}</b>${sk([70,60,75,55,65][i])}</p>`).join('')}</div>`},
- nba:{ch:'alago-nba-model',bot:'Alago NBA Model',cmd:'/nbabestbet',sr:'the Alago NBA Model replies with an embed titled ALAGO PROPS, NBA BEST BET, with fields for sources and freshness, the best bet, and unverified data.',
-  html:`<div class="d-embed" style="--ec:#ff8a3d"><p class="d-et">ALAGO PROPS | NBA BEST BET | ${sk(25)}</p>${['Sources &amp; freshness','NBA BEST BET','Unverified data'].map((l,i)=>`<div class="d-fld"><p class="d-fn">${l}</p>${sk([80,90,60][i])}${i===1?sk(70)+sk(50):''}</div>`).join('')}</div>`},
- mlb:{ch:'alago-mlb-model',bot:'Alago MLB Model',cmd:'/mlbnrfi',sr:'the Alago MLB Model replies with an MLB NRFI and YRFI breakdown listing each game with its first-inning estimate, fair price, status and confidence.',
-  html:`<div class="d-txt"><p><b>⚾ ALAGO PROPS | MLB NRFI / YRFI</b></p><p class="d-sub"><em>First inning simulated from team run projections × fitted inning shares.</em></p>${[0,1,2].map(i=>`<p class="d-line">• ${sk(15)} <b>NRFI</b>: ${sk([60,55,65][i])}</p><p class="d-line">• ${sk(15)} <b>YRFI</b>: ${sk([55,60,50][i])}</p>`).join('')}</div>`},
- nhl:{ch:'alago-nhl-model',bot:'Alago NHL Model',cmd:'/nhlgoalie',sr:'the Alago NHL Model replies with a goalie card: goalie and status, basis, projected save percentage, opponent shots, saves and goals against, then win, shutout and goals-against estimates.',
-  html:`<div class="d-txt"><p>🥅 <b>${sk(30)}</b> ${sk(40)}</p><p class="d-line"><b>Basis:</b> ${sk(60)}</p><p class="d-line"><b>Proj sv%</b> ${sk(15)} · <b>opp SOG</b> ${sk(15)} · <b>saves</b> ${sk(15)} · <b>GA</b> ${sk(15)}</p><p class="d-line"><b>Win</b> ${sk(15)} · <b>Shutout</b> ${sk(15)} · <b>GA u2.5</b> ${sk(15)} <span class="d-note">[model estimates]</span></p></div>`},
- props:{ch:'alago-props-model',bot:'Alago Props Model',cmd:'/nba',opts:['firstname','lastname','prop'],sr:'the Alago Props Model replies with an embed for the player and prop with fields for player, team, league, prop, games, average, line, above, below or equal, and hit rate, plus a note that hit rate describes past games and is not a probability.',
-  html:`<div class="d-embed" style="--ec:#3b82f6"><p class="d-et">${sk(35)} · ${sk(25)}</p><div class="d-grid">${['Player','Team','League','Prop','Games','Average','Line','Above / Below / Equal','Hit rate (over)'].map((l,i)=>`<div><p class="d-fn">${l}</p>${sk([70,50,60,65,30,40,35,75,55][i])}</div>`).join('')}</div><p class="d-foot2">HISTORICAL data from stored source records. Hit rate describes past games; it is not a probability.</p></div>`}};
+ nfl:{ch:'alago-nfl-model',bot:'Alago NFL Model',cmd:'/nflslate',
+  html:`<div class="d-txt"><p><b>🏈 ALAGO PROPS | NFL SLATE BREAKDOWN</b></p><p class="d-sub">Analysis 10:42 AM ET · ESPN schedule + DK prices</p>
+<p class="d-line"><b>1. Best supported straight bet:</b> BUF@KC · Chiefs -3.5 · -110 · est. 56.2% (model edge +2.1 pts) · EV +7.3% · QUALIFIED +EV → LEAN</p>
+<p class="d-line"><b>2. Best supported player prop:</b> BUF@KC · Josh Allen o1.5 pass TD · +105 · est. 53.0% · EV +8.6% · QUALIFIED +EV → LEAN</p>
+<p class="d-line"><b>3. Best potential +EV opportunity:</b> DET@GB · Under 47.5 · -108 · est. 54.8% · EV +5.5% · QUALIFIED +EV → LOW</p>
+<p class="d-line"><b>4. Best-supported parlay candidates:</b> Chiefs -3.5 (QUALIFIED +EV); Josh Allen o1.5 pass TD (QUALIFIED +EV)</p>
+<p class="d-line"><b>5. Games and markets worth monitoring:</b> PHI@DAL Eagles ML -135 (needs -125 or better)</p></div>`,
+  sr:'the Alago NFL Model replies with an NFL slate breakdown listing a sample best straight bet, player prop, +EV opportunity, parlay candidates and games to monitor.'},
+ nba:{ch:'alago-nba-model',bot:'Alago NBA Model',cmd:'/nbabestbet',
+  html:`<div class="d-embed" style="--ec:#ff8a3d"><p class="d-et">ALAGO PROPS | NBA BEST BET</p>
+<div class="d-fld"><p class="d-fn">Sources &amp; freshness</p><p class="d-fv">Schedule: ESPN scoreboard ✓ fetched 3 min ago<br>Odds: Odds API · updated 3 min ago</p></div>
+<div class="d-fld"><p class="d-fn">NBA BEST BET</p><p class="d-fv">🏀 ALAGO PROPS | NBA BEST BET<br>Matchup: BOS @ NYK<br>Pick: Celtics -2.5<br>Odds: -110 (DraftKings)<br>Estimated Probability: 55.0% (model estimate)<br>Confidence: Lean<br>PLAY Celtics -2.5 at -110 or better (limit -118). Small, flat stake. Model estimate - not a guarantee.</p></div>
+<div class="d-fld"><p class="d-fn">Unverified data</p><p class="d-fv">- Starting lineups not yet confirmed</p></div></div>`,
+  sr:'the Alago NBA Model replies with a sample best bet embed: sources and freshness, Celtics minus 2.5 at minus 110 with a 55 percent model estimate, and unverified data.'},
+ mlb:{ch:'alago-mlb-model',bot:'Alago MLB Model',cmd:'/mlbnrfi',
+  html:`<div class="d-txt"><p><b>⚾ ALAGO PROPS | MLB NRFI / YRFI</b></p><p class="d-sub"><em>First inning simulated from team run projections × fitted inning shares.</em></p>
+<p class="d-line">• LAD@SD <b>NRFI</b>: 56.1% (range 51%–61%), fair -128, odds -110, QUALIFIED +EV EV +7.1%, conf LEAN, price limit -122</p>
+<p class="d-line">• LAD@SD <b>YRFI</b>: 43.9% (range 39%–49%), fair +128, odds -110, NEGATIVE EV EV -16.2%, conf PASS, price limit none</p>
+<p class="d-line">• HOU@SEA <b>NRFI</b>: 52.3% (range 47%–57%), fair -110, odds —, UNPRICED, conf PASS, price limit none</p></div>`,
+  sr:'the Alago MLB Model replies with sample NRFI and YRFI lines for two games, each with model percentage, range, fair odds, status and confidence.'},
+ nhl:{ch:'alago-nhl-model',bot:'Alago NHL Model',cmd:'/nhlgoalie',
+  html:`<div class="d-txt"><p>🥅 <b>Igor Shesterkin</b> (NYR) vs BOS · CONFIRMED starter (NHL boxscore): Igor Shesterkin</p><p class="d-line">Basis: season + recent starts, regressed toward league average</p>
+<p class="d-line">Proj sv% 0.914 (regressed) · opp SOG 29.4 · saves 26.9 · GA 2.53</p><p class="d-line">Win 56.0% · Shutout 6.1% · GA u2.5 52.8% <span class="d-note">[model estimates; saves/GA/shutout not backtested]</span></p></div>`,
+  sr:'the Alago NHL Model replies with a sample goalie card for Igor Shesterkin: projected save percentage 0.914, 29.4 opponent shots, 26.9 saves, 2.53 goals against, 56 percent win.'},
+ props:{ch:'alago-props-model',bot:'Alago Props Model',cmd:'/nba',opts:['firstname: Jayson','lastname: Tatum','prop: Points','line: 26.5'],
+  html:`<div class="d-embed" style="--ec:#3b82f6"><p class="d-et">Jayson Tatum · Points</p><div class="d-grid">${[['Player','Jayson Tatum'],['Team','BOS'],['League','NBA'],['Prop','Points'],['Games','10'],['Average','27.20'],['Line','26.5 (your line)'],['Above / Below / Equal','🟩 6 · 🟥 4 · ⬜ 0'],['Hit rate (over)','<b>6/10</b> (60%)']].map(([l,v])=>`<div><p class="d-fn">${l}</p><p class="d-fv">${v}</p></div>`).join('')}</div>
+<div class="d-chart" aria-hidden="true"><i class="cl" style="bottom:65%"><span>26.5</span></i><span class="cb o" style="height:89%"><em>31</em></span><span class="cb u" style="height:69%"><em>24</em></span><span class="cb o" style="height:83%"><em>29</em></span><span class="cb u" style="height:63%"><em>22</em></span><span class="cb o" style="height:94%"><em>33</em></span><span class="cb u" style="height:71%"><em>25</em></span><span class="cb u" style="height:54%"><em>19</em></span><span class="cb o" style="height:86%"><em>30</em></span><span class="cb o" style="height:80%"><em>28</em></span><span class="cb o" style="height:89%"><em>31</em></span></div>
+<p class="d-foot2">HISTORICAL data from stored source records. Hit rate describes past games; it is not a probability.</p></div>`,
+  sr:'the Alago Props Model replies with a sample embed for Jayson Tatum points: last 10 games 31, 24, 29, 22, 33, 25, 19, 30, 28, 31, average 27.2, line 26.5, 6 above and 4 below, hit rate 6 of 10.'}};
 const tabs=[...document.querySelectorAll('.dtab')],ty=box.querySelector('.d-type'),rep=document.getElementById('dReply'),srEl=document.getElementById('dSr');
 let run=0,cur='nfl',auto=null,userTouched=false,seen=false;
 const fill=k=>{const d=D[k];document.getElementById('dChan').textContent=d.ch;document.getElementById('dBot').textContent=d.bot;rep.innerHTML=d.html;box.dataset.k=k;box.setAttribute('aria-labelledby','dt-'+k);srEl.textContent=`Example: a user types ${d.cmd}${d.opts?' with '+d.opts.join(', '):''} and ${d.sr}`};
