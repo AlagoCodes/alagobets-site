@@ -139,7 +139,7 @@ c.classList.add('copied');setTimeout(()=>c.classList.remove('copied'),1200);show
 /* discord demo: 5 model tabs; reply layouts mirror each bot's real output (titles/labels from bot code), values are placeholders */
 (()=>{const box=document.getElementById('demoBox');if(!box)return;const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const D={
- nfl:{ch:'alago-nfl-model',bot:'Alago NFL Model',cmd:'/slate',
+ nfl:{ch:'alago-nfl-model',bot:'Alago NFL Model',cmd:'/nflslate',
   html:`<div class="d-txt"><p><b>🏈 ALAGO PROPS | NFL SLATE BREAKDOWN</b></p><p class="d-sub">Analysis 10:42 AM ET · ESPN schedule + DK prices</p>
 <p class="d-line"><b>1. Best supported straight bet:</b> BUF@KC · Chiefs -3.5 · -110 · est. 56.2% (model edge +2.1 pts) · EV +7.3% · QUALIFIED +EV → LEAN</p>
 <p class="d-line"><b>2. Best supported player prop:</b> BUF@KC · Josh Allen o1.5 pass TD · +105 · est. 53.0% · EV +8.6% · QUALIFIED +EV → LEAN</p>
@@ -147,19 +147,19 @@ const D={
 <p class="d-line"><b>4. Best-supported parlay candidates:</b> Chiefs -3.5 (QUALIFIED +EV); Josh Allen o1.5 pass TD (QUALIFIED +EV)</p>
 <p class="d-line"><b>5. Games and markets worth monitoring:</b> PHI@DAL Eagles ML -135 (needs -125 or better)</p></div>`,
   sr:'the Alago NFL Model replies with an NFL slate breakdown listing a sample best straight bet, player prop, +EV opportunity, parlay candidates and games to monitor.'},
- nba:{ch:'alago-nba-model',bot:'Alago NBA Model',cmd:'/nbabestbet',
+ nba:{ch:'alago-nba-model',bot:'Alago NBA Model',cmd:'/nbabestbets',
   html:`<div class="d-embed" style="--ec:#ff8a3d"><p class="d-et">ALAGO PROPS | NBA BEST BET</p>
 <div class="d-fld"><p class="d-fn">Sources &amp; freshness</p><p class="d-fv">Schedule: ESPN scoreboard ✓ fetched 3 min ago<br>Odds: Odds API · updated 3 min ago</p></div>
 <div class="d-fld"><p class="d-fn">NBA BEST BET</p><p class="d-fv">🏀 ALAGO PROPS | NBA BEST BET<br>Matchup: BOS @ NYK<br>Pick: Celtics -2.5<br>Odds: -110 (DraftKings)<br>Estimated Probability: 55.0% (model estimate)<br>Confidence: Lean<br>PLAY Celtics -2.5 at -110 or better (limit -118). Small, flat stake. Model estimate - not a guarantee.</p></div>
 <div class="d-fld"><p class="d-fn">Unverified data</p><p class="d-fv">- Starting lineups not yet confirmed</p></div></div>`,
   sr:'the Alago NBA Model replies with a sample best bet embed: sources and freshness, Celtics minus 2.5 at minus 110 with a 55 percent model estimate, and unverified data.'},
- mlb:{ch:'alago-mlb-model',bot:'Alago MLB Model',cmd:'/nrfi',
+ mlb:{ch:'alago-mlb-model',bot:'Alago MLB Model',cmd:'/mlbnrfi',
   html:`<div class="d-txt"><p><b>⚾ ALAGO PROPS | MLB NRFI / YRFI</b></p><p class="d-sub"><em>First inning simulated from team run projections × fitted inning shares.</em></p>
 <p class="d-line">• LAD@SD <b>NRFI</b>: 56.1% (range 51%–61%), fair -128, odds -110, QUALIFIED +EV EV +7.1%, conf LEAN, price limit -122</p>
 <p class="d-line">• LAD@SD <b>YRFI</b>: 43.9% (range 39%–49%), fair +128, odds -110, NEGATIVE EV EV -16.2%, conf PASS, price limit none</p>
 <p class="d-line">• HOU@SEA <b>NRFI</b>: 52.3% (range 47%–57%), fair -110, odds —, UNPRICED, conf PASS, price limit none</p></div>`,
   sr:'the Alago MLB Model replies with sample NRFI and YRFI lines for two games, each with model percentage, range, fair odds, status and confidence.'},
- nhl:{ch:'alago-nhl-model',bot:'Alago NHL Model',cmd:'/goalies',
+ nhl:{ch:'alago-nhl-model',bot:'Alago NHL Model',cmd:'/nhlgoalies',
   html:`<div class="d-txt"><p>🥅 <b>Igor Shesterkin</b> (NYR) vs BOS · CONFIRMED starter (NHL boxscore): Igor Shesterkin</p><p class="d-line">Basis: season + recent starts, regressed toward league average</p>
 <p class="d-line">Proj sv% 0.914 (regressed) · opp SOG 29.4 · saves 26.9 · GA 2.53</p><p class="d-line">Win 56.0% · Shutout 6.1% · GA u2.5 52.8% <span class="d-note">[model estimates; saves/GA/shutout not backtested]</span></p></div>`,
   sr:'the Alago NHL Model replies with a sample goalie card for Igor Shesterkin: projected save percentage 0.914, 29.4 opponent shots, 26.9 saves, 2.53 goals against, 56 percent win.'},
